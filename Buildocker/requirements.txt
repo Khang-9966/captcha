@@ -1,0 +1,7 @@
+imutils==0.5.3
+tensorflow==2.2.0
+Keras==2.4.3
+opencv-python==4.1.1.26
+scipy==1.4.1
+Pillow==6.2.1
+numpy==1.17.4
