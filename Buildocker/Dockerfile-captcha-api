@@ -1,13 +1,14 @@
-FROM python:3.6.3
+FROM tensorflow/tensorflow:latest-gpu-py3
+
 ENV PYTHONIOENCODING utf-8
 
-ENV TZ=Asia/Ho_Chi_Minh
-RUN rm /etc/localtime
-RUN ln -s /usr/share/zoneinfo/Asia/Ho_Chi_Minh /etc/localtime
+#ENV TZ=Asia/Ho_Chi_Minh
+#RUN rm /etc/localtime
+#RUN ln -s /usr/share/zoneinfo/Asia/Ho_Chi_Minh /etc/localtime
 
 RUN pip install --upgrade pip
 
-#RUN pip install uwsgi==2.0.19.1
+RUN pip install uwsgi==2.0.19.1
 RUN pip install Flask==1.0.2
 
 COPY requirements.txt .
@@ -19,5 +20,6 @@ RUN apt install -y libgl1-mesa-dev
 WORKDIR /scripts
 COPY . .
 ENV FLASK_APP run_api
-CMD ["python", "run_api.py"]
-#CMD ["uwsgi", "uwsgi.ini"]
+
+#CMD ["python", "run_api.py"]
+CMD ["uwsgi", "uwsgi.ini"]

@@ -22,7 +22,6 @@ def stringToRGB(base64_string):
     imgdata = base64.b64decode(str(base64_string))
     image = Image.open(io.BytesIO(imgdata))
     image_ = np.array(image)
-    image.close()
     return cv2.cvtColor(np.array(image_), cv2.COLOR_BGR2RGB)
 
 def resize_to_fit(image, width, height):
@@ -63,6 +62,7 @@ def resize_to_fit(image, width, height):
     return image
 
 def get_captcha(image):
+    global label , model
     # Load the image and convert it to grayscale
     image = cv2.cvtColor(image, cv2.COLOR_BGR2GRAY)
 
@@ -109,6 +109,7 @@ def get_captcha(image):
     input_image = image      
 
     return_string = ""
+    
     for letter_bounding_box in letter_image_regions:
         # Grab the coordinates of the letter in the image
         x, y, w, h = letter_bounding_box
@@ -146,12 +147,11 @@ def getcaptcha():
     if (image_base64 is None):
         image_base64 = flask.request.form.get("image")
     image = stringToRGB( image_base64 )
-    #for _ in range(10):
     result = get_captcha(image)
     return flask.jsonify(result)
 
-if __name__ == "__main__":
-    app.run(debug=False,port=80,host='0.0.0.0')
+# if __name__ == "__main__":
+#     app.run(debug=False,port=80,host='0.0.0.0')
     
     
     
